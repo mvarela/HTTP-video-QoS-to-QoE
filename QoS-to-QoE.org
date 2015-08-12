@@ -1,0 +1,54 @@
+* Mapping QoS measurements to QoE estimations for HTTP video streams
+** Non-adaptive case
+Data collected via dashsimu
+*** DONE Data cleanup
+CLOSED: [2015-08-12 Wed 13:01]
+
+Configuration parameters.
+(TODO: figure what is the relevant output from dashsimu in the output file, and append to this line where needed)
+#+begin_src sh
+echo "id, movie, segment_length, buffer_size, adaptation, representation, max_br, lr, mlbs, delay, jitter, avg_response_t, avg_throughput, buffer_underrruns, stall_time, initial_delay, total_time" > results.txt
+for i in `find . -iname '*xml'`; do echo `echo $i | sed -e 's,^.*/,,' -e 's/_/, /g' -e 's/\.xml//'`, `./process_dashsimu_output.rb $i` >> results.txt; ./process_stalls_output.rb $i ; done
+#+end_src
+
+#+RESULTS:
+
+
+
+#+begin_src ruby :tangle process_dashsimu_output.rb :results none :exports code
+#!/usr/bin/env ruby
+fname = ARGV[0]
+dname = File.dirname fname
+Dir.chdir dname
+# Read the file and discard header
+line = (File.readlines "dashsimu_output.txt")[0].gsub!(/^.*-/,"").chomp.split
+# line format is: Avg resp time, Avg throughput, Number of segments, Buffer underruns, Stall time, Initial Delay, Total time
+# not interested in the number of segments, so we drop it
+line.delete_at 2
+results = (line.join ", ")
+STDOUT.printf("%s\n", results)
+#+end_src
+
+#+begin_src ruby :tangle process_stalls_output.rb :results none :exports code
+#!/usr/bin/env ruby
+dir = File.dirname(ARGV[0])
+Dir.chdir dir
+lines = File.readlines("play.log")
+outf = File.open("stalls.csv", "w")
+lines.select!{|l| l=~/(Stall|Playback) starts/}
+#skip the first "Playback starts" line, as it indicates the beginning of playback, not a stall
+if(lines.size < 1) then exit end
+lines.shift 
+outf.printf("stall_start, playback_start, relative_stall, relative_playback, stall_duration\n") 
+while(lines.size > 1) do
+    stall = lines.shift.sub(",",".").gsub("-"," ").gsub(":"," ").chomp.split" "
+    stall_start_time = Time.new stall[0], stall[1], stall[2], stall[3], stall[4], stall[5].to_f
+    stall_relative_start_time = stall[-1].to_f
+    playback = lines.shift.sub(",",".").gsub("-"," ").gsub(":"," ").chomp.split" "
+    playback_start_time = Time.new playback[0], playback[1], playback[2], playback[3], playback[4], playback[5].to_f
+    playback_relative_start_time = playback[-1].to_f
+    duration = playback_relative_start_time - stall_relative_start_time
+    outf.printf("%s, %s, %f, %f, %f\n", stall_start_time, playback_start_time, stall_relative_start_time, playback_relative_start_time, duration)
+end
+outf.close
+#+end_src
