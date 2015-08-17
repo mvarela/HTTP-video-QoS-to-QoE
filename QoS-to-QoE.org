@@ -7,7 +7,7 @@ CLOSED: [2015-08-12 Wed 13:01]
 Configuration parameters.
 (TODO: figure what is the relevant output from dashsimu in the output file, and append to this line where needed)
 #+begin_src sh
-echo "id, movie, segment_length, buffer_size, adaptation, representation, max_br, lr, mlbs, delay, jitter, avg_response_t, avg_throughput, buffer_underrruns, stall_time, initial_delay, total_time" > results.txt
+echo "id, movie, segment_length, buffer_size, adaptation, representation, max_br, lr, mlbs, delay, jitter, bandwidth, avg_response_t, avg_throughput, buffer_underrruns, stall_time, initial_delay, total_time" > results.txt
 for i in `find . -iname '*xml'`; do echo `echo $i | sed -e 's,^.*/,,' -e 's/_/, /g' -e 's/\.xml//'`, `./process_dashsimu_output.rb $i` >> results.txt; ./process_stalls_output.rb $i ; done
 #+end_src
 
