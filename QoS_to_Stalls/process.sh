@@ -11,7 +11,7 @@ echo $1 > hidden.txt
 ##
 rm -rf stall_numbers_$1 2>&1 >/dev/null
 mkdir stall_numbers_$1
-cat data_all.txt |  sed -f clean.sed  > set1
+cat data_all.txt |  sed -f clean.sed | awk -f normalize.awk  > set1
 ./split-10.rb set1 stall_numbers_$1
 for i in 0 1 2 3 4 5 6 7 8 9; do ./to_rnn.sh stall_numbers_$1/$i; done
 ./train_rnn.sh stall_numbers_$1
