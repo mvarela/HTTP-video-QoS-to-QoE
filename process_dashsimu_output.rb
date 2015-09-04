@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
-fname = ARGV[0]
-dname = File.dirname fname
+dname = ARGV[0]
 Dir.chdir dname
 # Read the file and discard header
 line = (File.readlines "dashsimu_output.txt")[0].gsub!(/^.*-/,"").chomp.split

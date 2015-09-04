@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-dir = File.dirname(ARGV[0])
-Dir.chdir dir
+dname = ARGV[0]
+Dir.chdir dname
 lines = File.readlines("play.log")
 outf = File.open("stalls.csv", "w")
 lines.select!{|l| l=~/(Stall|Playback) starts/}
