@@ -1,6 +1,7 @@
 #+begin_src emacs-lisp
    (require 'ob-sh)
    (require 'ob-ruby)
+   (require 'ob-gnuplot)
 #+end_src
 
 #+RESULTS:
@@ -15,22 +16,34 @@ CLOSED: [2015-08-12 Wed 13:01]
 
 Configuration parameters.
 (TODO: figure what is the relevant output from dashsimu in the output file, and append to this line where needed)
-#+begin_src sh
+#+begin_src sh :results none
 echo "id, movie, segment_length, buffer_size, adaptation, representation, max_br, lr, mlbs, delay, jitter, bandwidth, avg_response_t, avg_throughput, buffer_underrruns, stall_time, initial_delay, total_time" > results.txt
 for i in `find . -iname '*xml'`; do
        DIR=`dirname $i`
-       echo `echo $i | sed -e 's,^.*/,,' -e 's/_/, /g' -e 's/\.xml//'`, `./process_dashsimu_output.rb $DIR` >> results.txt;
-       ./process_stalls_output.rb "$DIR" ;
-       ./overall_qos.rb $DIR
+        echo `echo $i | sed -e 's,^.*/,,' -e 's/_/, /g' -e 's/\.xml//'`, `./process_dashsimu_output.rb $DIR` >> results.txt;
+        ./process_stalls_output.rb "$DIR" ;
+        ./overall_qos.rb $DIR;
+       for j in `find $DIR -iname 'avera*'`; do
+         awk '{if($29 > 0) print $2, $29*100.0}' < $j | sed '/time/d' > $DIR/loss_events.txt;
+         pushd $DIR
+#Only plot if there have been some losses or stalls
+         S1=`wc - l loss_events.txt | awk '{print $1}'`
+         S2=`wc - l stalls_plot.txt | awk '{print $1}'`
+         if [ "$S1" > "0" -o "$S2" > "2" ] 
+           then gnuplot < ../../plot_losses_stalls.gnup > "losses_v_stalls_"`basename $i xml`png;
+         fi
+         popd
+       done
+
       
 done
 #+end_src
 
-#+RESULTS:
+
 
 
 The =process_dashsimu_output.rb= script allows us to  calculate the overall results file for the whole run
-#+begin_src ruby :tangle process_dashsimu_output.rb :results none :exports code
+#+begin_src ruby :tangle process_dashsimu_output.rb :results none :exports code :padline no
 #!/usr/bin/env ruby
 dname = ARGV[0]
 Dir.chdir dname
@@ -45,12 +58,13 @@ STDOUT.printf("%s\n", results)
 
 
 The =process_stalls_output.rb= parses the playback log of dashsimu, and extracts the stall events
-#+begin_src ruby :tangle process_stalls_output.rb :results none :exports code
+#+begin_src ruby :tangle process_stalls_output.rb :results none :exports code :padline no 
 #!/usr/bin/env ruby
 dname = ARGV[0]
 Dir.chdir dname
 lines = File.readlines("play.log")
-outf = File.open("stalls.csv", "w")
+outf  = File.open("stalls.csv", "w")
+plotf = File.open("stalls_plot.txt" ,"w")
 lines.select!{|l| l=~/(Stall|Playback) starts/}
 #skip the first "Playback starts" line, as it indicates the beginning of playback, not a stall
 if(lines.size < 1) then exit end
@@ -65,13 +79,16 @@ while(lines.size > 1) do
     playback_relative_start_time = playback[-1].to_f
     duration = playback_relative_start_time - stall_relative_start_time
     outf.printf("%s, %s, %f, %f, %f\n", stall_start_time, playback_start_time, stall_relative_start_time, playback_relative_start_time, duration)
+    plotf.printf("%f, 0\n %f, 1\n", stall_start_time.to_f, stall_start_time.to_f)
+    plotf.printf("%f, 1\n %f, 0\n", playback_start_time.to_f, playback_start_time.to_f)
 end
 outf.close
+plotf.close
 #+end_src
 
 The =overall_qos.rb= script extracts the LR, MLBS and average throughput for each measurement, which is then to be fed to the QoS-to-buffer model.
 
-#+begin_src ruby :tangle overall_qos.rb :results none :exports code
+#+begin_src ruby :tangle overall_qos.rb :results none :exports code :padline no
 #!/usr/bin/env ruby
 
 # Read the Qosmet output, and discard the header lines at the top (19)
@@ -105,4 +122,20 @@ fout = File.open("overall_qos.csv", "w")
 fout.printf("LR, MLBS, Throughput\n")
 fout.printf("%.5f, %.5f, %.5f\n", total_lr, mlbs, average_load)
 fout.close
+#+end_src
+
+In order to print the loss and stall events, we use the following Gnuplot snippet
+
+#+begin_src gnuplot :tangle plot_losses_stalls.gnup :results none :exports code :padline no
+set terminal png size 900,400
+set title "Loss events vs. Stall events"
+set grid x y
+set xlabel "Time"
+set ylabel "Stalls"
+set xdata time
+set yrange [0:20]
+set timefmt "%s"
+set format x "%H:%M:%S"
+set key left top
+plot 'loss_events.txt' using 1:2 with lines title 'LR over 1s period (%)', 'stalls_plot.txt' using 1:2 with lines title 'Stalls events'  
 #+end_src

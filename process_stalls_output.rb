@@ -2,7 +2,8 @@
 dname = ARGV[0]
 Dir.chdir dname
 lines = File.readlines("play.log")
-outf = File.open("stalls.csv", "w")
+outf  = File.open("stalls.csv", "w")
+plotf = File.open("stalls_plot.txt" ,"w")
 lines.select!{|l| l=~/(Stall|Playback) starts/}
 #skip the first "Playback starts" line, as it indicates the beginning of playback, not a stall
 if(lines.size < 1) then exit end
@@ -17,5 +18,8 @@ while(lines.size > 1) do
     playback_relative_start_time = playback[-1].to_f
     duration = playback_relative_start_time - stall_relative_start_time
     outf.printf("%s, %s, %f, %f, %f\n", stall_start_time, playback_start_time, stall_relative_start_time, playback_relative_start_time, duration)
+    plotf.printf("%f, 0\n %f, 1\n", stall_start_time.to_f, stall_start_time.to_f)
+    plotf.printf("%f, 1\n %f, 0\n", playback_start_time.to_f, playback_start_time.to_f)
 end
 outf.close
+plotf.close

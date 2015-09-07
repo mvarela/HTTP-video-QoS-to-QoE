@@ -25,7 +25,7 @@ total_packets = lines[n - 1][32].to_f
 lost_packets = (total_packets * total_lr).ceil
 mlbs = lost_packets / sum_cb
 if(0<mlbs && mlbs<1) then 
-  STDERR.printf("Something's fishy here... MLBS < 1\n")
+  STDERR.printf("---> #{dname}\nSomething's fishy here... MLBS < 1\n")
 end
 fout = File.open("overall_qos.csv", "w")
 fout.printf("LR, MLBS, Throughput\n")
