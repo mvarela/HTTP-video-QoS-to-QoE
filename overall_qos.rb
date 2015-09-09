@@ -12,8 +12,8 @@ sum_cb = 0
 sum_l  = 0
 lines.each_index do |i|
   lines[i] = lines[i].split 
-  sum_cb += lines[i][42].to_f
-  sum_l += lines[i][30].to_f
+  sum_cb  += lines[i][42].to_f
+  sum_l   += lines[i][30].to_f
 end
 if(0 == sum_cb) then
   sum_cb = 1

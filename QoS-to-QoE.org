@@ -1,11 +1,8 @@
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results none 
    (require 'ob-sh)
    (require 'ob-ruby)
    (require 'ob-gnuplot)
 #+end_src
-
-#+RESULTS:
-: ob-ruby
 
 
 * Mapping QoS measurements to QoE estimations for HTTP video streams
@@ -17,6 +14,7 @@ CLOSED: [2015-08-12 Wed 13:01]
 Configuration parameters.
 (TODO: figure what is the relevant output from dashsimu in the output file, and append to this line where needed)
 #+begin_src sh :results none
+chmod +x *rb
 echo "id, movie, segment_length, buffer_size, adaptation, representation, max_br, lr, mlbs, delay, jitter, bandwidth, avg_response_t, avg_throughput, buffer_underrruns, stall_time, initial_delay, total_time" > results.txt
 for i in `find . -iname '*xml'`; do
        DIR=`dirname $i`
@@ -103,8 +101,8 @@ sum_cb = 0
 sum_l  = 0
 lines.each_index do |i|
   lines[i] = lines[i].split 
-  sum_cb += lines[i][42].to_f
-  sum_l += lines[i][30].to_f
+  sum_cb  += lines[i][42].to_f
+  sum_l   += lines[i][30].to_f
 end
 if(0 == sum_cb) then
   sum_cb = 1
@@ -138,4 +136,140 @@ set timefmt "%s"
 set format x "%H:%M:%S"
 set key left top
 plot 'loss_events.txt' using 1:2 with lines title 'LR over 1s period (%)', 'stalls_plot.txt' using 1:2 with lines title 'Stalls events'  
+#+end_src
+
+
+*** Short-term prediction of stalls
+
+As a first step towards understanding how the QoS impacts the stall events, we
+will look at the temporal correlation between loss events and the start of a
+stall. We will start with a very simple analysis, looking, for each loss rate
+observed in a 1s window, whether we observe stall events in the next /S/
+seconds, and if so, with which delay. We will therefore output a probability
+distribution for stalls happening during the /S/ seconds following a loss event. 
+
+
+#+begin_src ruby :tangle distances.rb :results none :exports code :padline no
+#!/usr/bin/env ruby
+
+require 'json'
+
+def insert_distance(distances, lr, d)
+  if(!distances.has_key?(lr))
+    distances[lr] = Array.new(S,0)
+  end
+  distances[lr][d - 1] += 1
+end
+
+# Number of seconds to look at before a stall event
+S = 10
+
+distances = {}
+
+dname = ARGV[0]
+Dir.chdir dname
+
+# If the file contains only the header, we bail
+stalls = File.readlines 'stalls_plot.txt'
+exit unless(stalls.size > 0) 
+
+# The first two lines are not useful, if there
+# is nothing else, we also bail
+losses = File.readlines 'loss_events.txt'
+exit unless(losses.size > 2)
+losses.shift 2
+
+# Collect start times for stalls: every fourth line, starting from the first
+stall_start_times = []
+stalls.each_index do |i|
+  if(0 == i % 4)
+    stall_start_times << stalls[i].split(',')[0].to_f
+  end
+end
+
+loss_events = []
+losses.each do |l|
+  loss_events << l.split.map(&:to_f)
+end
+stall_start_times.each do |s|
+  # last loss event before stall
+  ll_index = loss_events.rindex{ |l| l[0]< s }
+  break unless ll_index
+  ts = loss_events[ll_index][0]
+  # Get all loss events up to S seconds before the stall
+  while((ts > 0) &&  (ts >= (s - S)) && (ll_index >= 0))
+    loss_rate = loss_events[ll_index][1].round
+    ellapsed = (s - ts).round
+    insert_distance(distances, loss_rate, ellapsed)
+    ll_index -= 1
+    ts = loss_events[ll_index][0]
+  end
+end
+
+if(distances.size > 0)
+config =  ARGV[0].gsub(/^.*\//,"")
+out = {:config => config, :distances => distances}
+STDOUT.printf("%s\n", out.to_json)
+end
+  
+#+end_src
+
+
+We can do a first run of this collecting the data for configurations with the
+full bandwidth:
+
+
+#+begin_src sh :results none
+rm out_full_bw.txt > /dev/null 2&>1
+for i in `find 2015_08_31 -type d -iname '*15000*'`; do ./distances.rb $i >> out_full_bw.txt; done
+#+end_src
+
+We will then need to collect the data from each configuration and aggregate it,
+which is done as follows:
+
+
+#+begin_src ruby :tangle aggregate_distances.rb :results none :exports code :padline no
+#!/usr/bin/env ruby
+
+require 'json'
+require 'ascii_charts'
+
+# A small auxiliary function, because Ruby's library ain't as
+# neat as the Haskell prelude yet...
+def zip_with(a, b, &op)
+  result = []
+  a.zip(b){ |aa,bb| result << op.call(aa,bb)}
+  result
+end
+
+# We will create a hash containing, for each loss rate observed, the observed
+# distribution of stall starts over the /S/ seconds that follow
+aggregates = {}
+
+# read a file given as an argument, containing the JSON output by the
+# "distances" script, and aggregate the data therein. At this first instance, we
+# will not consider the different configuration parameters, and just lump everything
+# together, to see what the data looks like.
+
+lines = File.readlines ARGV[0]
+lines.each do |l| 
+  data = JSON.parse l
+  d    = data["distances"]
+  d.each do |k,v|
+    if(!aggregates.has_key?(k.to_i))
+      aggregates[k.to_i] = Array.new(v.size, 0)
+    end
+    aggregates[k.to_i] = zip_with(aggregates[k.to_i], v, &:+)
+  end
+end
+
+p aggregates.keys.sort
+
+aggregates.keys.sort.each do |k|
+  v = aggregates[k]
+  distribution = (1..v.size).to_a.zip(v)
+  printf("LR = %d\n", k)
+  printf("Distribution = %s\n", distribution)
+  puts AsciiCharts::Cartesian.new(distribution, :bar => true, :hide_zero => false).draw
+end
 #+end_src
