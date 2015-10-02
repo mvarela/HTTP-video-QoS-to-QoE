@@ -44,11 +44,15 @@ stall_start_times.each do |s|
   ll_index = loss_events.rindex{ |l| l[0]< s }
   break unless ll_index
   ts = loss_events[ll_index][0]
-  # Get all loss events up to S seconds before the stall
+  # Get all "first loss" events up to S seconds before the stall
   while((ts > 0) &&  (ts >= (s - S)) && (ll_index >= 0))
-    loss_rate = loss_events[ll_index][1].round
-    ellapsed = (s - ts).round
-    insert_distance(distances, loss_rate, ellapsed)
+    # check whether this was the first monitoring period with a loss,
+    # if not, try the previous one
+    if(ts - loss_events[ll_index-1][0] > 1.1)
+      loss_rate = loss_events[ll_index][1].round
+      ellapsed = (s - ts).round
+      insert_distance(distances, loss_rate, ellapsed)
+    end
     ll_index -= 1
     ts = loss_events[ll_index][0]
   end
