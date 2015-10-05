@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SampleDashsimuGeneratorJob xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="SampleDashsimuGeneratorJob.xsd">
+  <Id>stalingrad_2_2_False_2_0_1_1.25_0_0_6000_1722</Id>
+  <mpdFileURL>http://10.0.0.12/avc/stalingrad_2s/stalingrad_2s.mpd</mpdFileURL>
+  <SegmentLength>2</SegmentLength>
+  <DashSimu>
+   <BufferSize>2</BufferSize>
+   <Addaptation>False</Addaptation>
+   <RepresentationID>2</RepresentationID>
+   <MaxBitrate>0</MaxBitrate>
+  </DashSimu>
+  <netem>
+	<LossRate>1</LossRate>
+	<MLBS>1.25</MLBS>
+        <GEP>0.8080808080808083</GEP>
+        <GER>80.0</GER>
+	<Delay>0</Delay>
+	<Jitter>0</Jitter>
+	<Bandwidth>6000</Bandwidth>
+  </netem>
+</SampleDashsimuGeneratorJob>

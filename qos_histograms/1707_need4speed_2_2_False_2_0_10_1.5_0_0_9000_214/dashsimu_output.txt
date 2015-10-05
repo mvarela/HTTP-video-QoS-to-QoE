@@ -1,0 +1,5 @@
+2015-10-04 12:55:02,897 - dashsimu - ERROR - IncompleteRead(332746 bytes read, 1415079 more expected)
+2015-10-04 12:57:03,725 - dashsimu - ERROR - IncompleteRead of segment. Try to download again.
+2015-10-04 13:01:15,452 - dashsimu - ERROR - IncompleteRead(309578 bytes read, 1438247 more expected)
+2015-10-04 13:01:32,400 - dashsimu - ERROR - IncompleteRead of segment. Try to download again.
+2015-10-04 13:02:36,696 - dashsimu - INFO - 8.85022793278 2060951 31 9 1209.92320681 16.0610399246 1433.74636199

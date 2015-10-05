@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 dname = ARGV[0]
 Dir.chdir dname
-lines = File.readlines("play.log")
+logfile = Dir.glob("play*log")[0]
+lines = File.readlines(logfile)
 outf  = File.open("stalls.csv", "w")
 plotf = File.open("stalls_plot.txt" ,"w")
 lines.select!{|l| l=~/(Stall|Playback) starts/}

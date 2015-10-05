@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SampleDashsimuGeneratorJob xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="SampleDashsimuGeneratorJob.xsd">
+  <Id>need4speed_2_2_False_2_0_10_1.5_0_0_6000_213</Id>
+  <mpdFileURL>http://10.0.0.12/avc/need4speed_2s/need4speed_2s.mpd</mpdFileURL>
+  <SegmentLength>2</SegmentLength>
+  <DashSimu>
+   <BufferSize>2</BufferSize>
+   <Addaptation>False</Addaptation>
+   <RepresentationID>2</RepresentationID>
+   <MaxBitrate>0</MaxBitrate>
+  </DashSimu>
+  <netem>
+	<LossRate>10</LossRate>
+	<MLBS>1.5</MLBS>
+        <GEP>7.4074074074074066</GEP>
+        <GER>66.66666666666666</GER>
+	<Delay>0</Delay>
+	<Jitter>0</Jitter>
+	<Bandwidth>6000</Bandwidth>
+  </netem>
+</SampleDashsimuGeneratorJob>

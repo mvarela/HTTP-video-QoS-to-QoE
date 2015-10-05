@@ -1,0 +1,21 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Starting time:	16710.0.0 11:56:50
+Customer ID:	50
+User ID:	501
+Controller ID:	10001
+Service ID:	1
+Service Mapping ID Addr:	167774732
+Service Mapping ID Port:	8177
+Caller Mapping ID Addr:	167774731
+Caller Mapping ID Port:	34962
+Secondary Service Mapping ID Addr:	167774732
+Secondary Service Mapping ID Port:	8177
+Measurement ID:	2
+Measurement start time:	1443787016.890652
+
+Description:	test measurement
+
+Meas. time [s]	 Timestamp [s]	 Ctrl pk num	True Avg.Per. [ms]	Tot. Pcap Drops If [pkts]	Tot. Pcap Drops Pcap [pkts]	Latitude	Longitude	Altitude	UL Pkt loss	UL Total Pkt loss	UL Load [kb/s]	UL Load [pkts/s]	UL Total pkts	UL Avg.Pkt.Size [B]	UL Delay samples	UL delay [ms]	UL jitter (MA) [ms]	UL jitter (abs.) [ms]	UL GQoSM	UL PSQA	UL Conn. break dur. [s]	UL Conn. break length [pkts]	UL Conn. break count	UL Max Conn break [s]	UL Duplicates	UL Sent not found	UL Protocol	 *** DL Pkt loss	DL Total Pkt loss	DL Load [kb/s]	DL Load [pkts/s]	DL Total pkts	DL Avg.Pkt.Size [B]	DL Delay samples	DL delay [ms]	DL jitter (MA) [ms]	DL jitter (abs.) [ms]	DL GQoSM	DL PSQA	DL Conn. break dur. [s]	DL Conn. break length [pkts]	DL Conn. break count	DL Max Conn break [s]	DL Duplicates	DL Sent not found	DL Protocol	
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------****-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1.000000	1443787017.831593	1	1000.000000	N/A	N/A	N/A	N/A	N/A	N/A	N/A	0.000000	0	0	N/A	0	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	0	N/A	N/A	N/A	N/A	0.000000	0	0	N/A	0	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	0	N/A	255	
+2.000000	1443787018.831789	2	1000.000000	N/A	N/A	N/A	N/A	N/A	N/A	N/A	0.000000	0	0	N/A	0	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	0	N/A	N/A	N/A	N/A	0.000000	0	0	N/A	0	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	0	N/A	255	
