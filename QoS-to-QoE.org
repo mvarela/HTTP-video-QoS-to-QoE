@@ -353,8 +353,14 @@ fout_h.printf("#LR, MLBS, BW, stall# 0..#{MAX_STALLS - 1},over_limit\n")
 fout_d.printf("#LR, MLBS, BW, avg_stall_duration 0..#{MAX_STALLS - 1}/#{BUCKET_SIZE},over_limit\n")
 
 results.keys.sort.each do |k|
-  fout_h.printf("%s, %s\n", k, results[k][:stall_count].map{ |x| x.to_s}.join(", "))
-  fout_d.printf("%s, %s\n", k, results[k][:stall_duration].map{ |x| x.to_s}.join(", "))
+  sc = results[k][:stall_count]
+  sum_c = sc.reduce(:+)
+
+  sd = results[k][:stall_duration]
+  sum_d = sd.reduce(:+)
+
+  fout_h.printf("%s, %s\n", k, sc.map{ |x| (x.to_f/sum_c).to_s}.join(", "))
+  fout_d.printf("%s, %s\n", k, results[k][:stall_duration].map{ |x| (x.to_f/sum_d).to_s}.join(", "))
 end
 
 fout_h.close
