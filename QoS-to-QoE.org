@@ -289,7 +289,7 @@ stalls and the average stall time (which we will then put in buckets).
 
 #+begin_src sh :results none
 rm results_qos_histograms.txt > /dev/null 2&>1
-for i in qos_histograms/{0,1,2,3,4}*; do 
+for i in qos_histograms/{0,1,2,3,4,5,6,7,8,9}*; do 
         echo $i  `./process_dashsimu_output.rb $i` >> results_qos_histograms.txt; ./build_qos_histograms.rb < results_qos_histograms.txt;
 done
 #+end_src
@@ -365,4 +365,17 @@ end
 
 fout_h.close
 fout_d.close
+#+end_src
+
+A different measurement campaign was done for validation purposes (i.e., to test
+the models created with the data collected above). 
+
+We can process the validation data using the same scripts as before.
+
+
+#+begin_src sh :results none
+rm validation_results_qos_histograms.txt > /dev/null 2&>1
+for i in qos_histograms-validation/{0,1,2,3,4}*; do 
+        echo $i  `./process_dashsimu_output.rb $i` >> validation_results_qos_histograms.txt; ./build_qos_histograms.rb < validation_results_qos_histograms.txt;
+done
 #+end_src
