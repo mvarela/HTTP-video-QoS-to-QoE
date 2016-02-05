@@ -50,61 +50,61 @@ dfrm.norm$mlbs = dfrm.norm$mlbs/max(dfrm.norm$mlbs)
 dfrm.norm$bandwidth = dfrm.norm$bandwidth/max(dfrm.norm$bandwidth)
 
 form.in <- as.formula('sd.0.5~lr+mlbs+bandwidth')
-mod.sd.0.5 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.0.5 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.6.10~lr+mlbs+bandwidth')
-mod.sd.6.10 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.6.10 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.11.15~lr+mlbs+bandwidth')
-mod.sd.11.15 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.11.15 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.16.20~lr+mlbs+bandwidth')
-mod.sd.16.20 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.16.20 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.21.25~lr+mlbs+bandwidth')
-mod.sd.21.25 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.21.25 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.26.30~lr+mlbs+bandwidth')
-mod.sd.26.30 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.26.30 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.31.35~lr+mlbs+bandwidth')
-mod.sd.31.35 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.31.35 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.36.40~lr+mlbs+bandwidth')
-mod.sd.36.40 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.36.40 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.41.45~lr+mlbs+bandwidth')
-mod.sd.41.45 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.41.45 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.46.50~lr+mlbs+bandwidth')
-mod.sd.46.50 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.46.50 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.51.55~lr+mlbs+bandwidth')
-mod.sd.51.55 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.51.55 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.56.60~lr+mlbs+bandwidth')
-mod.sd.56.60 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.56.60 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.61.65~lr+mlbs+bandwidth')
-mod.sd.61.65 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.61.65 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.66.70~lr+mlbs+bandwidth')
-mod.sd.66.70 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.66.70 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.71.75~lr+mlbs+bandwidth')
-mod.sd.71.75 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.71.75 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.76.80~lr+mlbs+bandwidth')
-mod.sd.76.80 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.76.80 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.81.85~lr+mlbs+bandwidth')
-mod.sd.81.85 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.81.85 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.86.90~lr+mlbs+bandwidth')
-mod.sd.86.90 <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.86.90 <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('sd.91.inf~lr+mlbs+bandwidth')
-mod.sd.91.inf <- neuralnet(form.in, data=dfrm.norm, hidden=14, stepmax=3000000,threshold=arg.threshold)
+mod.sd.91.inf <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
 
 browser()
 
