@@ -20,5 +20,5 @@ cat ../validation_stall_duration_histograms.txt | sed -f clean.sed > validation/
 mv tst.predictions.txt validation/predictions_stall.txt
 
 
-./do_rnn_hist.R validation/duration_trn validation/validation_duration 0.2
+./do_rnn_tt_hist.R validation/duration_trn validation/validation_duration 0.005
 mv tst.predictions.txt validation/predictions_duration.txt

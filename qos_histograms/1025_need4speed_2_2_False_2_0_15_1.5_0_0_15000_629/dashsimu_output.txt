@@ -1,3 +1,0 @@
-2015-10-02 21:23:39,601 - dashsimu - ERROR - timed out
-2015-10-02 21:23:39,602 - dashsimu - ERROR - IncompleteRead of segment. Try to download again.
-2015-10-02 21:31:25,350 - dashsimu - INFO - 19.6558029498 931187 31 10 544.724594355 34.8072550297 641.413980985

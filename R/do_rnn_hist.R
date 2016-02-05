@@ -51,38 +51,38 @@ dfrm.norm$mlbs = dfrm.norm$mlbs/max(dfrm.norm$mlbs)
 dfrm.norm$bandwidth = dfrm.norm$bandwidth/max(dfrm.norm$bandwidth)
 
 form.in <- as.formula('zero_s~lr+mlbs+bandwidth')
-mod.zero_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.zero_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('one_s~lr+mlbs+bandwidth')
-mod.one_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.one_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('two_s~lr+mlbs+bandwidth')
-mod.two_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.two_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('three_s~lr+mlbs+bandwidth')
-mod.three_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.three_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('four_s~lr+mlbs+bandwidth')
-mod.four_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.four_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('five_s~lr+mlbs+bandwidth')
-mod.five_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.five_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('six_s~lr+mlbs+bandwidth')
-mod.six_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.six_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('seven_s~lr+mlbs+bandwidth')
-mod.seven_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.seven_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('eight_s~lr+mlbs+bandwidth')
-mod.eight_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.eight_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 form.in <- as.formula('nine_s~lr+mlbs+bandwidth')
-mod.nine_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.nine_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 
 form.in <- as.formula('many_s~lr+mlbs+bandwidth')
-mod.many_s <- neuralnet(form.in, data=dfrm.norm, hidden=7, stepmax=30000,threshold=arg.threshold)
+mod.many_s <- neuralnet(form.in, data=dfrm.norm, hidden=c(15,10,7), stepmax=30000,threshold=arg.threshold)
 
 #######################################################################
 print("*** 2 - Test RNN ***")

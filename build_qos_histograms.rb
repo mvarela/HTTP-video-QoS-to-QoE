@@ -44,8 +44,8 @@ STDIN.each_line do |line|
 end
 
 
-fout_h = File.open "validation_stall_histograms.txt", "w"
-fout_d = File.open "validation_stall_duration_histograms.txt", "w"
+fout_h = File.open "stall_histograms.txt", "w"
+fout_d = File.open "stall_duration_histograms.txt", "w"
 
 fout_h.printf("#LR, MLBS, BW, stall# 0..#{MAX_STALLS - 1},over_limit\n")
 fout_d.printf("#LR, MLBS, BW, avg_stall_duration 0..#{MAX_STALLS - 1}/#{BUCKET_SIZE},over_limit\n")
