@@ -45,7 +45,7 @@ lines.each do |l|
   3.times do
     config << data.shift
   end
-  key = config.map{ |x| (x/100).to_i.to_s }.join", "
+  key = config.map{ |x| (x/100).to_f.to_s }.join", "
   _original = data[0..(data.size/2 - 1)]
   original = normalize(_original)
   _predicted = data[data.size/2, data.size - 1]
